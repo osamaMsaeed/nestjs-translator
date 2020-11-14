@@ -1,0 +1,6 @@
+/src
+/node_modules
+.git
+./tsconfig.build.json
+./tsconfig.json
+./index.ts
