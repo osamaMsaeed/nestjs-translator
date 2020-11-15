@@ -4,3 +4,5 @@
 ./tsconfig.build.json
 ./tsconfig.json
 ./index.ts
+./tsconfig.build.tsbuildinfo
+./.gitignore

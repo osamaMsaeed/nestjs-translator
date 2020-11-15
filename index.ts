@@ -101,6 +101,7 @@ export class TranslatorService {
     let lang = this.defaultLanguage;
     if (options && options.lang) {
       if (this.langs.hasOwnProperty(options.lang)) {
+        lang = options.lang;
       } else {
         throw new Error(
           `Language "${options.lang}" not founded for key : "${key}"`,
@@ -170,7 +171,7 @@ export class TranslatorModule {
     if(options.hasOwnProperty('requestKeyExtractor'))
       requestKeyExtractor = options.requestKeyExtractor;
 
-    return {
+    const Module = {
       global,
       module: TranslatorModule,
       providers: [
@@ -184,12 +185,13 @@ export class TranslatorModule {
         },
         {
           provide: 'TRANSLATOR_REQUEST_KEY_EXTRACTOR',
-          useValue : requestKeyExtractor
+          useValue: requestKeyExtractor
         },
         TranslatorService,
       ],
       exports: [TranslatorService],
     };
+    return Module;
   }
 }
 
@@ -198,6 +200,7 @@ export class TranslatorModule {
 export class TranslatorFilter implements ExceptionFilter {
   constructor(private translator: TranslatorService) {}
   catch(exception: HttpException | any, host: ArgumentsHost) {
+    console.log('exception')
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
     const req = ctx.getRequest<Request>();
