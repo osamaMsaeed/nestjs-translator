@@ -29,8 +29,6 @@ export class TranslatorService {
 
   private langs: { [lang: string]: object } = {};
 
-  private __initialized: boolean = false;
-
   getLangs() : string[] {
     return Object.keys(this.langs);
   }
@@ -52,34 +50,33 @@ export class TranslatorService {
      * Fetching a list of folders that are exist in the language source folder.
      */
     const folders = fs.readdirSync(source);
-    if (!folders) {
-      throw new Error('The translator source folder not found.');
-    }
 
     /**
      * Iterating language folders and extract translation json files.
      */
     folders.forEach((langFolder, i) => {
-      const currentLangFolder = path.join(source, '/', langFolder);
+      try{
+        const currentLangFolder = path.join(source, '/', langFolder);
 
-      const files = fs.readdirSync(currentLangFolder);
-      files.forEach(langFile => {
-        const currentLangFile = path.join(currentLangFolder, langFile);
+        const files = fs.readdirSync(currentLangFolder);
+        files.forEach(langFile => {
+          const currentLangFile = path.join(currentLangFolder, langFile);
 
-        try {
-          const content = JSON.parse(
-            fs.readFileSync(currentLangFile, { encoding: 'utf8' }),
-          );
+          try {
+            const content = JSON.parse(
+              fs.readFileSync(currentLangFile, { encoding: 'utf8' }),
+            );
 
-          if (content) {
-            this.langs[langFolder] = { ...this.langs[langFolder], ...content };
+            if (content) {
+              this.langs[langFolder] = { ...this.langs[langFolder], ...content };
+            }
+          } catch (e) {
+            throw new Error(
+              `Error on reading translation file : ${currentLangFile}\nThe file should be JSON format.`,
+            );
           }
-        } catch (e) {
-          throw new Error(
-            `Error on reading translation file : ${currentLangFile}\nThe file should be JSON format.`,
-          );
-        }
-      });
+        });
+      }catch(e){}
     });
   }
 
@@ -196,11 +193,9 @@ export class TranslatorModule {
 }
 
 @Injectable()
-@Catch(HttpException)
 export class TranslatorFilter implements ExceptionFilter {
   constructor(private translator: TranslatorService) {}
   catch(exception: HttpException | any, host: ArgumentsHost) {
-    console.log('exception')
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
     const req = ctx.getRequest<Request>();
@@ -225,7 +220,7 @@ export class TranslatorFilter implements ExceptionFilter {
      */
     let langKey;
     let selectedLanguage;
-    if(typeof this.translator._keyExtractor == 'function'){
+    if(this.translator._keyExtractor){
       try{
         langKey = this.translator._keyExtractor(req);
       }catch (e) {}
