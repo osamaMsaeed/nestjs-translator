@@ -1,6 +1,6 @@
 {
   "name": "nestjs-translator",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "description": "A simple and light module and exception filter to translate and organize your nestjs app messages.",
   "author": "Alireza Roosta",
   "private": false,

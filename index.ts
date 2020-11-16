@@ -11,7 +11,7 @@ import {
 
 import * as fs from 'fs';
 import * as path from 'path';
-import ReplaceStr from 'replace-string';
+import * as ReplaceStr from 'replace-string';
 import { Response, Request } from 'express';
 
 @Injectable()

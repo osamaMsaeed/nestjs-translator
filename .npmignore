@@ -1,8 +1,9 @@
 /src
 /node_modules
 .git
-./tsconfig.build.json
-./tsconfig.json
-./index.ts
-./tsconfig.build.tsbuildinfo
-./.gitignore
+.idea
+tsconfig.build.json
+tsconfig.json
+index.ts
+tsconfig.build.tsbuildinfo
+.gitignore
