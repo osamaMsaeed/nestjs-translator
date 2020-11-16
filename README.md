@@ -1,5 +1,5 @@
 # **NestJS Translator Module**
-<img src="nestjs-logo.png" width="200" height="200"/>
+<img src="https://raw.githubusercontent.com/alireza1998dev/nestjs-translator/master/NestJs-translator.png" width="200" height="200"/>
 
 A simple and lightweight module and exception filter to translate and organize your NestJS app messages (strings).
 
