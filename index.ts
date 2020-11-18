@@ -4,9 +4,8 @@ import {
   Module,
   DynamicModule,
   ExceptionFilter,
-  Catch,
   ArgumentsHost,
-  HttpException,
+  HttpException, HttpStatus,
 } from '@nestjs/common';
 
 import * as fs from 'fs';
@@ -200,8 +199,11 @@ export class TranslatorFilter implements ExceptionFilter {
     const response = ctx.getResponse<Response>();
     const req = ctx.getRequest<Request>();
 
-    let status = exception.getStatus();
+    let status = HttpStatus.BAD_REQUEST;
     let message: string | string[] | any = exception.message;
+    try{
+      status = exception.getStatus();
+    }catch (e) {}
 
     try {
       if (exception.response) {
