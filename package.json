@@ -6,6 +6,10 @@
   "private": false,
   "license": "MIT",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/osamaMsaeed/nestjs-translator.git"
+  },
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
